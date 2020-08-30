@@ -8,16 +8,70 @@ package banking;
   After implementing servlet,web.xml and index.jsp, deploy on Tomcat Server
  */
 
-public class LogInToMyBank {
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet(name = "BankAccountSignIn", urlPatterns = "bankAccountLogin")
+
+public class LogInToMyBank extends HttpServlet {
+
+    private String message;
 
     //implement initialize method
 
+    public void init()throws ServletException {
+        System.out.println("..........Servlet initializing..........");
+        message = "Welcome to Web World !";
+    }
+
 
     //implement doGet method
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+
+        PrintWriter printWriter = response.getWriter();
+        printWriter.println("<h1>"+ "..please use Do post for login into your account" + "<h1>");
+        System.out.println("..........Servlet called doGet method..........");
+
+    }
+
 
 
     //implement doPost method
 
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+
+
+        String userName = request.getParameter("accountNumber");
+        String password = request.getParameter("pinNumber");
+        if(userName.equalsIgnoreCase("efarz") && password.equalsIgnoreCase("abc123")){
+            response.setContentType("text/html");
+
+            PrintWriter printWriter = response.getWriter();
+            printWriter.println("<h1>" + "You are authorized user. Welcome to Dummy Bank !");
+            System.out.println("..........Servlet called doPost method..........");
+        }else{
+            response.setContentType("text/html");
+
+            PrintWriter printWriter = response.getWriter();
+            printWriter.println("<h1>" + "You are not authorized user. So You are not Welcome to Servlet Demo !");
+            System.out.println("..........Servlet called doPost method..........");
+        }
+
+    }
+
+    public void destroy(){
+        System.out.println(".....Servlet is destroying now...............");
+    }
 
 
 }
